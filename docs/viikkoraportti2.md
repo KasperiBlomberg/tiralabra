@@ -8,6 +8,6 @@ Sama ongelma vaikuttaa myös backpropagation algoritmiin.
 
 Feedforward- ja backpropagation-algoritmien kanssa on ollut jonkin verran haasteita, mutta olen pystynyt ratkaisemaan ne tähän mennessä. Uskon, että selviän myös jäljellä olevista ongelmista.
 
-Seuraavaksi korjaan backpropagation algoritmin kuntoon ja alan tekemään testejä ohjelmalle. Kun saan toimivia testejä aikaan, algoritmin kehitys muuttuu helpommaksi. Lisään projektiin myös poetryn riippuvuuksien hallintaa varten.
+Seuraavaksi korjaan backpropagation algoritmin kuntoon ja alan tekemään testejä ohjelmalle. Kun saan toimivia testejä aikaan, algoritmin kehitys muuttuu helpommaksi. Koodin sisäinen laatu on myös todella heikkoa tällä hetkellä, joten laitan sen kuntoon. Lisään projektiin myös poetryn riippuvuuksien hallintaa varten.
 
 Käytin tällä viikolla projektiin aikaa 10 tuntia.
