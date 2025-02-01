@@ -5,15 +5,14 @@ class NeuralNetwork:
     def __init__(self, W1, b1, W2, b2):
         self.W1, self.b1, self.W2, self.b2 = W1, b1, W2, b2
 
-    def forward_prop(W1, b1, W2, b2, X):
-        Z1 = W1.dot(X) + b1
-        A1 = ReLU(Z1)
-        Z2 = W2.dot(A1) + b2
-        A2 = softmax(Z2)
-        return Z1, A1, Z2, A2
+    def forward_prop(self, X):
+        self.Z1 = self.W1.dot(X) + self.b1
+        self.A1 = ReLU(self.Z1)
+        self.Z2 = self.W2.dot(self.A1) + self.b2
+        self.A2 = softmax(self.Z2)
+        return self.A2
 
-    def get_predictions(A2):
-        return np.argmax(A2, 0)
-
-    def get_accuracy(predictions, Y):
-        return np.sum(predictions == Y) / Y.size
+    def predict(self, X):
+        """Predicts class labels for given input data."""
+        A2 = self.forward_prop(X)
+        return np.argmax(A2, axis=0)
