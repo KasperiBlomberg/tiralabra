@@ -1,15 +1,18 @@
 import numpy as np
 
+
 def ReLU(Z):
     """ReLU function. Returns a matrix of the same shape as Z.
     Every negative value is replaced by 0 and positive values stay the same."""
     return np.maximum(Z, 0)
+
 
 def ReLU_deriv(Z):
     """Derivative of the ReLU function.
     Returns a boolean matrix of the same shape as Z.
     Booleans behave like 0s and 1s in calculations."""
     return Z > 0
+
 
 def softmax(Z):
     """

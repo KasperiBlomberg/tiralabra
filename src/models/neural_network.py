@@ -1,6 +1,7 @@
 import numpy as np
 from src.utils.activation_functions import ReLU, softmax
 
+
 class NeuralNetwork:
     def __init__(self, W1, b1, W2, b2):
         self.W1, self.b1, self.W2, self.b2 = W1, b1, W2, b2

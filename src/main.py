@@ -1,6 +1,7 @@
 from scripts.train import train
 from scripts.evaluate import evaluate
 
+
 def main():
     while True:
         print("1. Train the model")

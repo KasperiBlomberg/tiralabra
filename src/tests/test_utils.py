@@ -3,14 +3,11 @@ import numpy as np
 from src.utils.data_loader import one_hot, load_train_data, load_test_data
 from src.utils.training import init_params, backward_prop, update_params
 
+
 class TestUtils(unittest.TestCase):
     def test_one_hot(self):
         Y = np.array([0, 1, 2])
-        expected = np.array([
-            [1, 0, 0],
-            [0, 1, 0],
-            [0, 0, 1]
-        ])
+        expected = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
         np.testing.assert_array_equal(one_hot(Y), expected)
 
     def test_load_train_data(self):

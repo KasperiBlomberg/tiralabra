@@ -1,10 +1,12 @@
 import sys
 import os
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import numpy as np
 from src.utils.data_loader import load_test_data
 from src.models.neural_network import NeuralNetwork
+
 
 def load_weights(filename="model_weights.npz"):
     """Loads the trained model weights from a file."""
@@ -13,6 +15,7 @@ def load_weights(filename="model_weights.npz"):
         return data["W1"], data["b1"], data["W2"], data["b2"]
     except FileNotFoundError:
         print(f"File not found. Train the model first.")
+
 
 def evaluate(sample_size=1000):
     """Evaluates the trained model on the test dataset."""
@@ -28,6 +31,7 @@ def evaluate(sample_size=1000):
     print(f"Test Accuracy: {accuracy:.4f}")
 
     return accuracy
+
 
 if __name__ == "__main__":
     evaluate(10000)
