@@ -4,6 +4,15 @@ from src.utils import mnist_reader
 
 
 def load_train_data(sample_size):
+    """
+    Load the training data from the Fashion MNIST dataset.
+
+    Args:
+        sample_size (int): Number of samples to load.
+
+    Returns:
+        tuple: Training data and labels
+    """
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_DIR = os.path.join(BASE_DIR, "data/fashion")
 
@@ -17,6 +26,15 @@ def load_train_data(sample_size):
 
 
 def load_test_data(sample_size):
+    """
+    Load the test data from the Fashion MNIST dataset.
+
+    Args:
+        sample_size (int): Number of samples to load.
+
+    Returns:
+        tuple: Test data and labels
+    """
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_DIR = os.path.join(BASE_DIR, "data/fashion")
 
@@ -30,6 +48,15 @@ def load_test_data(sample_size):
 
 
 def one_hot(Y):
+    """
+    Convert an array of labels to one-hot encoding.
+
+    Args:
+        Y (numpy.ndarray): Array of labels.
+
+    Returns:
+        numpy.ndarray: One-hot encoded labels.
+    """
     one_hot_Y = np.zeros((Y.size, Y.max() + 1))
     one_hot_Y[np.arange(Y.size), Y] = 1
     one_hot_Y = one_hot_Y.T

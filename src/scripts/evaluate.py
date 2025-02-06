@@ -9,7 +9,15 @@ from src.models.neural_network import NeuralNetwork
 
 
 def load_weights(filename="model_weights.npz"):
-    """Loads the trained model weights from a file."""
+    """
+    Loads the trained model weights from a file.
+
+    Args:
+        filename (str): Name of the file to load the weights from.
+
+    Returns:
+        tuple: Weights and biases for the network.
+    """
     try:
         data = np.load(filename)
         return data["W1"], data["b1"], data["W2"], data["b2"]
@@ -18,7 +26,15 @@ def load_weights(filename="model_weights.npz"):
 
 
 def evaluate(sample_size=1000):
-    """Evaluates the trained model on the test dataset."""
+    """
+    Evaluates the trained model on the test dataset.
+
+    Args:
+        sample_size (int): Number of samples to evaluate on.
+
+    Returns:
+        float: Accuracy of the model on the test dataset
+    """
     print(f"Evaluating with {sample_size} test samples")
     X_test, y_test = load_test_data(sample_size)
 
@@ -31,7 +47,3 @@ def evaluate(sample_size=1000):
     print(f"Test Accuracy: {accuracy:.4f}")
 
     return accuracy
-
-
-if __name__ == "__main__":
-    evaluate(10000)

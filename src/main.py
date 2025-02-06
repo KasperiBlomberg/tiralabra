@@ -3,6 +3,14 @@ from scripts.evaluate import evaluate
 
 
 def main():
+    """
+    Runs a command-line interface for training and evaluating the network.
+
+    The user can choose to:
+    1. Train the model by specifying a sample size, number of iterations, and learning rate.
+    2. Evaluate the model using a specified sample size.
+    3. Exit the program.
+    """
     while True:
         print("1. Train the model")
         print("2. Evaluate the model")
