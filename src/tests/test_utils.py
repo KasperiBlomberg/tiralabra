@@ -21,11 +21,13 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(y_test.shape, (1000,))
 
     def test_init_params(self):
-        W1, b1, W2, b2 = init_params()
+        W1, b1, W2, b2, W3, b3 = init_params()
         self.assertEqual(W1.shape, (10, 784))
         self.assertEqual(b1.shape, (10, 1))
         self.assertEqual(W2.shape, (10, 10))
         self.assertEqual(b2.shape, (10, 1))
+        self.assertEqual(W3.shape, (10, 10))
+        self.assertEqual(b3.shape, (10, 1))
 
     def test_backward_prop(self):
         pass

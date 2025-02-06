@@ -20,7 +20,7 @@ def load_weights(filename="model_weights.npz"):
     """
     try:
         data = np.load(filename)
-        return data["W1"], data["b1"], data["W2"], data["b2"]
+        return data["W1"], data["b1"], data["W2"], data["b2"], data["W3"], data["b3"]
     except FileNotFoundError:
         print(f"File not found. Train the model first.")
 
@@ -38,9 +38,9 @@ def evaluate(sample_size=1000):
     print(f"Evaluating with {sample_size} test samples")
     X_test, y_test = load_test_data(sample_size)
 
-    W1, b1, W2, b2 = load_weights()
+    W1, b1, W2, b2, W3, b3 = load_weights()
 
-    nn = NeuralNetwork(W1, b1, W2, b2)
+    nn = NeuralNetwork(W1, b1, W2, b2, W3, b3)
     predictions = nn.predict(X_test)
 
     accuracy = np.mean(predictions == y_test)
