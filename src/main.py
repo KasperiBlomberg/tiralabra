@@ -1,5 +1,5 @@
 from scripts.train import train
-from scripts.evaluate import evaluate
+from scripts.evaluate import evaluate, view_predictions
 
 
 def main():
@@ -14,7 +14,8 @@ def main():
     while True:
         print("1. Train the model")
         print("2. Evaluate the model")
-        print("3. Exit")
+        print("3. View predictions")
+        print("4. Exit")
         choice = input("Enter your choice: ")
 
         if choice == "1":
@@ -35,6 +36,8 @@ def main():
                 sample_size = 10000
             evaluate(sample_size)
         elif choice == "3":
+            view_predictions()
+        elif choice == "4":
             break
         else:
             print("Invalid choice. Please enter a valid choice.")

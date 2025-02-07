@@ -3,7 +3,7 @@ import numpy as np
 from src.utils import mnist_reader
 
 
-def load_train_data(sample_size):
+def load_train_data(sample_size=60000):
     """
     Load the training data from the Fashion MNIST dataset.
 
@@ -25,7 +25,7 @@ def load_train_data(sample_size):
     return X_train, y_train
 
 
-def load_test_data(sample_size):
+def load_test_data(sample_size=10000):
     """
     Load the test data from the Fashion MNIST dataset.
 
