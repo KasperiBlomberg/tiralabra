@@ -24,7 +24,10 @@ def main():
                 sample_size = 60000
             iterations = int(input("Enter the number of iterations: "))
             alpha = float(input("Enter the learning rate: "))
-            train(alpha, iterations, sample_size)
+            filename = input("Enter the filename to save the model weights: (Press enter to use default) ")
+            if not filename:
+                filename = "model_weights.npz"
+            train(alpha, iterations, sample_size, filename)
         elif choice == "2":
             sample_size = int(input("Enter the sample size: (max 10000)"))
             if sample_size > 10000:
