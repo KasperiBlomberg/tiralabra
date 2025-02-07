@@ -19,6 +19,7 @@ def train(
 ):
     """
     Trains the neural network on the dataset.
+    Uses mini-batches with shuffling.
 
     Args:
         alpha (float): Learning rate for the model.
@@ -33,8 +34,12 @@ def train(
     num_batches = X_train.shape[1] // batch_size
 
     for i in range(iterations):
+        permutation = np.random.permutation(X_train.shape[1])
+        X_train = X_train[:, permutation]
+        Y_train = Y_train[permutation]
         X_train_batches = np.array_split(X_train, num_batches, axis=1)
         Y_train_batches = np.array_split(Y_train, num_batches, axis=0)
+
         for batch in range(num_batches):
             X_train_batch = X_train_batches[batch]
             Y_train_batch = Y_train_batches[batch]
