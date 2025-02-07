@@ -55,7 +55,9 @@ def backward_prop(Z1, A1, Z2, A2, Z3, A3, W1, W2, W3, X, Y):
     return dW1, db1, dW2, db2, dW3, db3
 
 
-def update_params(W1, b1, W2, b2, W3, b3, dW1, db1, dW2, db2, dW3, db3, alpha):
+def update_params(
+    W1, b1, W2, b2, W3, b3, dW1, db1, dW2, db2, dW3, db3, alpha, lambda_reg=0.001
+):
     """
     Update the weights and biases of the network.
 
@@ -72,15 +74,16 @@ def update_params(W1, b1, W2, b2, W3, b3, dW1, db1, dW2, db2, dW3, db3, alpha):
         db2 (numpy.ndarray): Gradient of second layer biases.
         dW3 (numpy.ndarray): Gradient of third layer weights.
         db3 (numpy.ndarray): Gradient of third layer biases.
-        alpha (float): Learning rate
+        alpha (float): Learning rate.
+        lambda_reg (float): L2 regularization parameter.
 
     Returns:
         tuple: Updated weights and biases for the network.
     """
-    W1 = W1 - alpha * dW1
+    W1 = W1 - alpha * (dW1 + lambda_reg * W1)
     b1 = b1 - alpha * db1
-    W2 = W2 - alpha * dW2
+    W2 = W2 - alpha * (dW2 + lambda_reg * W2)
     b2 = b2 - alpha * db2
-    W3 = W3 - alpha * dW3
+    W3 = W3 - alpha * (dW3 + lambda_reg * W3)
     b3 = b3 - alpha * db3
     return W1, b1, W2, b2, W3, b3
