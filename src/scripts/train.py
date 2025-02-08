@@ -12,8 +12,8 @@ from src.models.neural_network import NeuralNetwork
 
 def train(
     alpha=0.1,
-    iterations=1000,
-    sample_size=1000,
+    iterations=100,
+    sample_size=30000,
     filename="model_weights.npz",
     batch_size=128,
 ):
