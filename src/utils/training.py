@@ -3,13 +3,16 @@ from src.utils.activation_functions import ReLU_deriv
 from src.utils.data_loader import one_hot
 
 
-def init_params():
+def init_params(randomize=True):
     """
     Initializes the weights and biases for the network.
 
     Returns:
         tuple: Weights and biases for the network.
     """
+    if not randomize:
+        np.random.seed(0)
+
     W1 = np.random.rand(256, 784) - 0.5
     b1 = np.random.rand(256, 1) - 0.5
     W2 = np.random.rand(128, 256) - 0.5
