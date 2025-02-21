@@ -26,7 +26,7 @@ def load_weights(filename="model_weights.npz"):
         print(f"File not found. Train the model first.")
 
 
-def evaluate(sample_size=1000):
+def evaluate(sample_size=1000, filename="model_weights.npz"):
     """
     Evaluates the trained model on the test dataset.
 
@@ -39,7 +39,7 @@ def evaluate(sample_size=1000):
     print(f"Evaluating with {sample_size} test samples")
     X_test, y_test = load_test_data(sample_size)
 
-    W1, b1, W2, b2, W3, b3 = load_weights()
+    W1, b1, W2, b2, W3, b3 = load_weights(filename)
 
     nn = NeuralNetwork(W1, b1, W2, b2, W3, b3)
     predictions = nn.predict(X_test)

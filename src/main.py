@@ -34,7 +34,10 @@ def main():
             if sample_size > 10000:
                 print("Sample size cannot be greater than 10000. Setting it to 10000.")
                 sample_size = 10000
-            evaluate(sample_size)
+            filename = input("Enter the filename to load the model weights: (Press enter to use default) ")
+            if not filename:
+                filename = "model_weights.npz"
+            evaluate(sample_size, filename)
         elif choice == "3":
             view_predictions()
         elif choice == "4":
