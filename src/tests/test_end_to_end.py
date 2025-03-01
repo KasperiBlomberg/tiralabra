@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 import unittest
 import numpy as np
 
-from src.utils.data_loader import load_train_data, one_hot
+from src.utils.data_loader import load_train_data, one_hot, load_weights, load_test_data
 from src.models.neural_network import NeuralNetwork
 
 
@@ -115,4 +115,17 @@ class TestEndToEnd(unittest.TestCase):
         """
         Test if the order of samples in the dataset affects the output.
         """
-        pass
+
+        X_test, _ = load_test_data(5)
+        nn = NeuralNetwork(load_weights())
+
+        batch_output = nn.predict(X_test)
+
+        individual_outputs = []
+        for i in range(X_test.shape[1]):
+            output = nn.predict(X_test[:, i].reshape(-1, 1))[0]
+            individual_outputs.append(output)
+
+        assert np.array_equal(
+            batch_output, individual_outputs
+        ), "Batch and individual outputs should match"
