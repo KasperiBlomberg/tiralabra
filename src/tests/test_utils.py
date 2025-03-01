@@ -1,7 +1,6 @@
 import unittest
 import numpy as np
 from src.utils.data_loader import one_hot, load_train_data, load_test_data
-from src.utils.training import init_params, backward_prop, update_params
 from src.utils.activation_functions import ReLU, ReLU_deriv, softmax
 
 
@@ -20,15 +19,6 @@ class TestUtils(unittest.TestCase):
         X_test, y_test = load_test_data(1000)
         self.assertEqual(X_test.shape, (784, 1000))
         self.assertEqual(y_test.shape, (1000,))
-
-    def test_init_params(self):
-        W1, b1, W2, b2, W3, b3 = init_params()
-        self.assertEqual(W1.shape, (256, 784))
-        self.assertEqual(b1.shape, (256, 1))
-        self.assertEqual(W2.shape, (128, 256))
-        self.assertEqual(b2.shape, (128, 1))
-        self.assertEqual(W3.shape, (10, 128))
-        self.assertEqual(b3.shape, (10, 1))
 
     def test_relu(self):
         Z = np.array([[-1, 0, 5], [3, -2, 0]])
@@ -61,7 +51,4 @@ class TestUtils(unittest.TestCase):
         np.testing.assert_allclose(column_sums, np.ones(output.shape[1]), rtol=1e-6)
 
     def test_backward_prop(self):
-        pass
-
-    def test_update_params(self):
         pass

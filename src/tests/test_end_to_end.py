@@ -8,15 +8,12 @@ import numpy as np
 
 from src.utils.data_loader import load_train_data, one_hot
 from src.models.neural_network import NeuralNetwork
-from src.utils.training import backward_prop, update_params, init_params
 
 
 class TestEndToEnd(unittest.TestCase):
     def setUp(self):
         self.X_train, self.Y_train = load_train_data(10)
-        self.W1, self.b1, self.W2, self.b2, self.W3, self.b3 = init_params(
-            randomize=False
-        )
+        self.nn = NeuralNetwork(randomize=False)
         self.num_batches = 1
         self.iterations = 100
         self.alpha = 0.01
@@ -27,7 +24,8 @@ class TestEndToEnd(unittest.TestCase):
         """
         Method train from scripts copied but modified a bit to be able to test it.
         """
-        W1, b1, W2, b2, W3, b3 = self.W1, self.b1, self.W2, self.b2, self.W3, self.b3
+
+        nn = self.nn
 
         for i in range(self.iterations):
             permutation = np.random.permutation(self.X_train.shape[1])
@@ -39,26 +37,23 @@ class TestEndToEnd(unittest.TestCase):
             for batch in range(self.num_batches):
                 X_train_batch = X_train_batches[batch]
                 Y_train_batch = Y_train_batches[batch]
-                nn = NeuralNetwork(W1, b1, W2, b2, W3, b3)
-                A3 = nn.forward_prop(X_train_batch)
 
-                dW1, db1, dW2, db2, dW3, db3 = backward_prop(
-                    nn.Z1,
-                    nn.A1,
-                    nn.Z2,
-                    nn.A2,
-                    nn.Z3,
-                    A3,
-                    W1,
-                    W2,
-                    W3,
-                    X_train_batch,
-                    Y_train_batch,
+                nn.forward_prop(X_train_batch)
+
+                dW1, db1, dW2, db2, dW3, db3 = nn.backward_prop(
+                    X_train_batch, Y_train_batch
                 )
 
-                W1_new, b1_new, W2_new, b2_new, W3_new, b3_new = update_params(
-                    W1, b1, W2, b2, W3, b3, dW1, db1, dW2, db2, dW3, db3, self.alpha
+                W1_old, b1_old, W2_old, b2_old, W3_old, b3_old = (
+                    nn.W1,
+                    nn.b1,
+                    nn.W2,
+                    nn.b2,
+                    nn.W3,
+                    nn.b3,
                 )
+
+                nn.update_params(dW1, db1, dW2, db2, dW3, db3, self.alpha)
 
                 # Check that gradients are not zero
                 self.assertTrue(
@@ -76,28 +71,30 @@ class TestEndToEnd(unittest.TestCase):
 
                 # Check that weights and biases are updated after each iteration
                 self.assertFalse(
-                    np.all(W1 == W1_new), "W1 should update each iteration"
+                    np.all(nn.W1 == W1_old), "W1 should update each iteration"
                 )
                 self.assertFalse(
-                    np.all(b1 == b1_new), "b1 should update each iteration"
+                    np.all(nn.b1 == b1_old), "b1 should update each iteration"
                 )
                 self.assertFalse(
-                    np.all(W2 == W2_new), "W2 should update each iteration"
+                    np.all(nn.W2 == W2_old), "W2 should update each iteration"
                 )
                 self.assertFalse(
-                    np.all(b2 == b2_new), "b2 should update each iteration"
+                    np.all(nn.b2 == b2_old), "b2 should update each iteration"
                 )
                 self.assertFalse(
-                    np.all(W3 == W3_new), "W3 should update each iteration"
+                    np.all(nn.W3 == W3_old), "W3 should update each iteration"
                 )
-                # self.assertFalse(np.all(b3 == b3_new), "b3 should update each iteration") # Causes an error has to be fixed
-
-                W1, b1, W2, b2, W3, b3 = W1_new, b1_new, W2_new, b2_new, W3_new, b3_new
+                self.assertFalse(
+                    np.all(nn.b3 == b3_old), "b3 should update each iteration"
+                )
 
             if i % 100 == 0 or i == self.iterations - 1:
                 predictions = nn.predict(self.X_train)
                 accuracy = np.mean(predictions == self.Y_train)
-                loss = -np.sum(one_hot(self.Y_train) * np.log(A3)) / self.Y_train.size
+                loss = (
+                    -np.sum(one_hot(self.Y_train) * np.log(nn.A3)) / self.Y_train.size
+                )
 
                 self.loss_history.append(loss)
                 self.accuracy_history.append(accuracy)

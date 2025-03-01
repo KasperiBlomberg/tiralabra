@@ -41,6 +41,3 @@ class TestNeuralnetwork(unittest.TestCase):
 
         column_sums = np.sum(A3, axis=0)
         np.testing.assert_allclose(column_sums, np.ones(A3.shape[1]), rtol=1e-6)
-
-    def test_forward_prop_computations(self):
-        pass

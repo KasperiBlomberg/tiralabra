@@ -1,5 +1,6 @@
 import numpy as np
-from src.utils.activation_functions import ReLU, softmax
+from src.utils.activation_functions import ReLU, softmax, ReLU_deriv
+from src.utils.data_loader import one_hot
 
 
 class NeuralNetwork:
@@ -13,13 +14,43 @@ class NeuralNetwork:
         b2 (numpy.ndarray): Biases of the second layer.
         W3 (numpy.ndarray): Weights of the third layer.
         b3 (numpy.ndarray): Biases of the third layer.
+        randomize (bool): Whether to use a random seed for initialization.
     """
 
-    def __init__(self, W1, b1, W2, b2, W3, b3):
+    def __init__(
+        self, W1=None, b1=None, W2=None, b2=None, W3=None, b3=None, randomize=True
+    ):
         """
         Initializes the neural network with given weights and biases.
         """
-        self.W1, self.b1, self.W2, self.b2, self.W3, self.b3 = W1, b1, W2, b2, W3, b3
+        if any(param is None for param in (W1, b1, W2, b2, W3, b3)):
+            self.W1, self.b1, self.W2, self.b2, self.W3, self.b3 = self._init_params(
+                randomize
+            )
+        else:
+            self.W1, self.b1, self.W2, self.b2, self.W3, self.b3 = (
+                W1,
+                b1,
+                W2,
+                b2,
+                W3,
+                b3,
+            )
+
+    @staticmethod
+    def _init_params(randomize):
+        """Initialize weights and biases fo training."""
+        if not randomize:
+            np.random.seed(0)
+
+        return (
+            np.random.rand(256, 784) - 0.5,
+            np.random.rand(256, 1) - 0.5,
+            np.random.rand(128, 256) - 0.5,
+            np.random.rand(128, 1) - 0.5,
+            np.random.rand(10, 128) - 0.5,
+            np.random.rand(10, 1) - 0.5,
+        )
 
     def forward_prop(self, X):
         """
@@ -42,6 +73,55 @@ class NeuralNetwork:
 
         return self.A3
 
+    def backward_prop(self, X, Y):
+        """
+        Backward propagation to get the gradients of the loss with respect to the weights and biases.
+
+        Args:
+            X (numpy.ndarray): Input data.
+            Y (numpy.ndarray): True labels.
+
+        Returns:
+            tuple: Gradients of the loss with respect to the weights and biases.
+        """
+        one_hot_Y = one_hot(Y)
+        m = Y.size
+        dZ3 = self.A3 - one_hot_Y
+        dW3 = 1 / m * dZ3.dot(self.A2.T)
+        db3 = 1 / m * np.sum(dZ3, axis=1, keepdims=True)
+        dZ2 = self.W3.T.dot(dZ3) * ReLU_deriv(self.Z2)
+        dW2 = 1 / m * dZ2.dot(self.A1.T)
+        db2 = 1 / m * np.sum(dZ2, axis=1, keepdims=True)
+        dZ1 = self.W2.T.dot(dZ2) * ReLU_deriv(self.Z1)
+        dW1 = 1 / m * dZ1.dot(X.T)
+        db1 = 1 / m * np.sum(dZ1, axis=1, keepdims=True)
+        return dW1, db1, dW2, db2, dW3, db3
+
+    def update_params(self, dW1, db1, dW2, db2, dW3, db3, alpha, lambda_reg=0.001):
+        """
+        Update the weights and biases of the network.
+
+        Args:
+
+            dW1 (numpy.ndarray): Gradient of the loss with respect to the weights of the first layer.
+            db1 (numpy.ndarray): Gradient of the loss with respect to the biases of the first layer.
+            dW2 (numpy.ndarray): Gradient of the loss with respect to the weights of the second layer.
+            db2 (numpy.ndarray): Gradient of the loss with respect to the biases of the second layer.
+            dW3 (numpy.ndarray): Gradient of the loss with respect to the weights of the third layer.
+            db3 (numpy.ndarray): Gradient of the loss with respect to the biases of the third layer.
+            alpha (float): Learning rate.
+            lambda_reg (float): L2 regularization parameter.
+
+        Returns:
+            tuple: Updated weights and biases for the network.
+        """
+        self.W1 = self.W1 - alpha * (dW1 + lambda_reg * self.W1)
+        self.b1 = self.b1 - alpha * db1
+        self.W2 = self.W2 - alpha * (dW2 + lambda_reg * self.W2)
+        self.b2 = self.b2 - alpha * db2
+        self.W3 = self.W3 - alpha * (dW3 + lambda_reg * self.W3)
+        self.b3 = self.b3 - alpha * db3
+
     def predict(self, X):
         """
         Predicts the class of input data.
@@ -54,3 +134,26 @@ class NeuralNetwork:
         """
         A3 = self.forward_prop(X)
         return np.argmax(A3, axis=0)
+
+    def save_params(self, filename="model_weights.npz"):
+        """
+        Saves model weights to a file.
+        """
+        np.savez(
+            filename,
+            W1=self.W1,
+            b1=self.b1,
+            W2=self.W2,
+            b2=self.b2,
+            W3=self.W3,
+            b3=self.b3,
+        )
+
+    def load_weights(self, filename="model_weights.npz"):
+        """
+        Loads model weights from a file.
+        """
+        data = np.load(filename)
+        self.W1, self.b1 = data["W1"], data["b1"]
+        self.W2, self.b2 = data["W2"], data["b2"]
+        self.W3, self.b3 = data["W3"], data["b3"]

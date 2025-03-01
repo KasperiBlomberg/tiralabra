@@ -41,15 +41,15 @@ def main():
                 "Enter the filename to save the model weights: (Press enter to use default) "
             )
             filename = filename.strip() if filename.strip() else "model_weights.npz"
-            
+
             train(alpha, iterations, sample_size, filename)
-        
+
         elif choice == "2":
             sample_size = int(input("Enter the sample size: (max 10000)"))
             if sample_size > 10000:
                 print("Sample size cannot be greater than 10000. Setting it to 10000.")
                 sample_size = 10000
-            
+
             filename = input(
                 "Enter the filename to load the model weights: (Press enter to use default) "
             )
@@ -63,7 +63,7 @@ def main():
 
         elif choice == "4":
             break
-        
+
         else:
             print("Invalid choice. Please enter a valid choice.")
 
