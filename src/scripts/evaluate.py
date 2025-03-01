@@ -4,6 +4,8 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 import numpy as np
+import matplotlib
+matplotlib.use("QtAgg")
 import matplotlib.pyplot as plt
 from src.utils.data_loader import load_test_data
 from src.models.neural_network import NeuralNetwork
