@@ -66,10 +66,13 @@ def view_predictions(sample_size=10, filename="model_weights.npz"):
         prediction = labels[predictions[i]]
         actual = labels[y_test[i]]
         if prediction == actual:
+            color = "green"
             print(f"Correct! Prediction: {prediction}, Actual: {actual}")
         else:
+            color = "red"
             print(f"Wrong! Prediction: {prediction}, Actual: {actual}")
 
         plt.imshow(X_test[:, i].reshape(28, 28), cmap="gray")
         plt.axis("off")
+        plt.title(f"Prediction: {prediction}\nActual: {actual}", color=color, fontsize=14)
         plt.show()

@@ -76,7 +76,7 @@ def get_filename_load(prompt, default):
 
 def show_files():
     """
-    pass
+    Show the files in the current directory with a .npz extension.
     """
 
     print("Files in the current directory:")
