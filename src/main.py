@@ -1,5 +1,88 @@
+import os
 from scripts.train import train
 from scripts.evaluate import evaluate, view_predictions
+
+
+def get_input(prompt, default, type, max_value=None):
+    """
+    Get user input and return the value entered by the user.
+
+    Args:
+        prompt (str): The prompt to display to the user.
+        default (str): The default value to return if the user does not enter anything.
+        type (type): Whether the input should be an integer or a float.
+        max_value (int, optional): The maximum value allowed for the input.
+
+    Returns:
+        str: The value entered by the user.
+    """
+    try:
+        value = input(prompt)
+        return type(value) if value else default
+    except ValueError:
+        print("Invalid input. Please enter a valid value.")
+        return get_input(prompt, default, type, max_value)
+
+
+def get_filename_save(prompt, default):
+    """
+    Get the filename from the user for saving the model weights.
+
+    Args:
+        prompt (str): The prompt to display to the user.
+        default (str): The default value to return if the user does not enter anything.
+
+    Returns:
+        str: The filename entered by the user.
+    """
+    filename = input(prompt).strip()
+
+    if not filename:
+        return default
+
+    if not filename.endswith(".npz"):
+        filename += ".npz"
+
+    return filename
+
+
+def get_filename_load(prompt, default):
+    """
+    Get the filename from the user for loading the model weights.
+
+    Args:
+        prompt (str): The prompt to display to the user.
+        default (str): The default value to return if the user does not enter anything.
+
+    Returns:
+        str: The filename entered by the user.
+    """
+    while True:
+        filename = input(prompt).strip()
+
+        if not filename:
+            return default
+
+        if not filename.endswith(".npz"):
+            filename += ".npz"
+
+        if os.path.exists(filename):
+            return filename
+
+        else:
+            print("File not found. Please enter a valid filename.")
+            show_files()
+
+
+def show_files():
+    """
+    pass
+    """
+
+    print("Files in the current directory:")
+    for file in os.listdir():
+        if file.endswith(".npz"):
+            print(file)
 
 
 def main():
@@ -9,7 +92,8 @@ def main():
     The user can choose to:
     1. Train the model by specifying a sample size, number of iterations, and learning rate.
     2. Evaluate the model using a specified sample size.
-    3. Exit the program.
+    3. View predictions made by the model.
+    4. Exit the program.
     """
     while True:
         print("1. Train the model")
@@ -19,47 +103,59 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            sample_size_input = input(
-                "Enter the sample size: (max 60000 and Press enter to use default) "
+            sample_size = get_input(
+                "Enter the sample size: (max 60000,  press enter to use default = 60000) ",
+                60000,
+                int,
+                60000,
             )
-            sample_size = int(sample_size_input) if sample_size_input.strip() else 60000
-            if sample_size > 60000:
-                print("Sample size cannot be greater than 60000. Setting it to 60000.")
-                sample_size = 60000
 
-            iterations_input = input(
-                "Enter the number of iterations (Press enter to use default): "
+            iterations = get_input(
+                "Enter the number of iterations (Press enter to use default = 100): ",
+                100,
+                int,
             )
-            iterations = int(iterations_input) if iterations_input.strip() else 100
 
-            alpha_input = input(
-                "Enter the learning rate: (Press enter to use default) "
+            alpha = get_input(
+                "Enter the learning rate: (max 1, press enter to use default = 0.1) ",
+                0.1,
+                float,
+                1,
             )
-            alpha = float(alpha_input) if alpha_input.strip() else 0.1
 
-            filename = input(
-                "Enter the filename to save the model weights: (Press enter to use default) "
+            filename = get_filename_save(
+                "Enter the filename to save the model weights: (Press enter to use default = model_weights.npz) ",
+                "model_weights.npz",
             )
-            filename = filename.strip() if filename.strip() else "model_weights.npz"
 
             train(alpha, iterations, sample_size, filename)
 
         elif choice == "2":
-            sample_size = int(input("Enter the sample size: (max 10000)"))
-            if sample_size > 10000:
-                print("Sample size cannot be greater than 10000. Setting it to 10000.")
-                sample_size = 10000
-
-            filename = input(
-                "Enter the filename to load the model weights: (Press enter to use default) "
+            sample_size = get_input(
+                "Enter the sample size: (max 10000, press enter to use default = 10000) ",
+                10000,
+                int,
+                10000,
             )
-            if not filename:
-                filename = "model_weights.npz"
+
+            show_files()
+
+            filename = get_filename_load(
+                "Enter the filename to get the model weights from: (Press enter to use default = model_weights.npz) ",
+                "model_weights.npz",
+            )
 
             evaluate(sample_size, filename)
 
         elif choice == "3":
-            view_predictions()
+            show_files()
+
+            filename = get_filename_load(
+                "Enter the filename to get the model weights from: (Press enter to use default = model_weights.npz) ",
+                "model_weights.npz",
+            )
+
+            view_predictions(filename=filename)
 
         elif choice == "4":
             break

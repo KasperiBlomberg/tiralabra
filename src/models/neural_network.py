@@ -132,8 +132,8 @@ class NeuralNetwork:
         Returns:
             numpy.ndarray: Predicted class labels.
         """
-        A3 = self.forward_prop(X)
-        return np.argmax(A3, axis=0)
+        self.forward_prop(X)
+        return np.argmax(self.A3, axis=0)
 
     def save_params(self, filename="model_weights.npz"):
         """
@@ -148,12 +148,3 @@ class NeuralNetwork:
             W3=self.W3,
             b3=self.b3,
         )
-
-    def load_weights(self, filename="model_weights.npz"):
-        """
-        Loads model weights from a file.
-        """
-        data = np.load(filename)
-        self.W1, self.b1 = data["W1"], data["b1"]
-        self.W2, self.b2 = data["W2"], data["b2"]
-        self.W3, self.b3 = data["W3"], data["b3"]

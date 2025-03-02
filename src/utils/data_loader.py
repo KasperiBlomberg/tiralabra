@@ -61,3 +61,20 @@ def one_hot(Y):
     one_hot_Y[np.arange(Y.size), Y] = 1
     one_hot_Y = one_hot_Y.T
     return one_hot_Y
+
+
+def load_weights(filename="model_weights.npz"):
+    """
+    Loads the trained model weights from a file.
+
+    Args:
+        filename (str): Name of the file to load the weights from.
+
+    Returns:
+        tuple: Weights and biases for the network.
+    """
+    try:
+        data = np.load(filename)
+        return data["W1"], data["b1"], data["W2"], data["b2"], data["W3"], data["b3"]
+    except FileNotFoundError:
+        print(f"File not found. Train the model first.")
