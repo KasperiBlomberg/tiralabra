@@ -30,19 +30,17 @@ def train(
     """
 
     X_train, Y_train = load_train_data(sample_size)
-    num_batches = X_train.shape[1] // batch_size
+    num_samples = X_train.shape[1]
+    num_batches = num_samples // batch_size
     nn = NeuralNetwork()
 
     for i in range(iterations):
-        permutation = np.random.permutation(X_train.shape[1])
-        X_train = X_train[:, permutation]
-        Y_train = Y_train[permutation]
-        X_train_batches = np.array_split(X_train, num_batches, axis=1)
-        Y_train_batches = np.array_split(Y_train, num_batches, axis=0)
+        permutation = np.random.permutation(num_samples)
 
-        for batch in range(num_batches):
-            X_train_batch = X_train_batches[batch]
-            Y_train_batch = Y_train_batches[batch]
+        for j in range(num_batches):
+            batch_indices = permutation[j * batch_size:(j + 1) * batch_size]
+            X_train_batch = X_train[:, batch_indices]
+            Y_train_batch = Y_train[batch_indices]
 
             nn.forward_prop(X_train_batch)
 

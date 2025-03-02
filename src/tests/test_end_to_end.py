@@ -15,9 +15,9 @@ class TestEndToEnd(unittest.TestCase):
         np.random.seed(0)
         self.X_train, self.Y_train = load_train_data(10)
         self.nn = NeuralNetwork()
-        self.num_batches = 1
         self.iterations = 100
         self.alpha = 0.01
+        self.batch_size = 5
         self.loss_history = []
         self.accuracy_history = []
 
@@ -26,19 +26,19 @@ class TestEndToEnd(unittest.TestCase):
         Method train from scripts copied but modified a bit to be able to test it.
         """
 
+        X_train, Y_train = self.X_train, self.Y_train
+        num_samples = X_train.shape[1]
+        num_batches = num_samples // self.batch_size
         nn = self.nn
 
         for i in range(self.iterations):
-            permutation = np.random.permutation(self.X_train.shape[1])
-            X_train = self.X_train[:, permutation]
-            Y_train = self.Y_train[permutation]
-            X_train_batches = np.array_split(X_train, self.num_batches, axis=1)
-            Y_train_batches = np.array_split(Y_train, self.num_batches, axis=0)
+            permutation = np.random.permutation(num_samples)
 
-            for batch in range(self.num_batches):
-                X_train_batch = X_train_batches[batch]
-                Y_train_batch = Y_train_batches[batch]
-
+            for j in range(num_batches):
+                batch_indices = permutation[j * self.batch_size:(j + 1) * self.batch_size]
+                X_train_batch = X_train[:, batch_indices]
+                Y_train_batch = Y_train[batch_indices]
+                
                 nn.forward_prop(X_train_batch)
 
                 nn.backward_prop(X_train_batch, Y_train_batch)
