@@ -47,19 +47,19 @@ def load_test_data(sample_size=10000):
     return X_test, y_test
 
 
-def one_hot(Y):
+def one_hot(Y, num_classes=10):
     """
     Convert an array of labels to one-hot encoding.
 
     Args:
         Y (numpy.ndarray): Array of labels.
+        num_classes (int): Number of classes in the dataset.
 
     Returns:
         numpy.ndarray: One-hot encoded labels.
     """
-    one_hot_Y = np.zeros((Y.size, Y.max() + 1))
-    one_hot_Y[np.arange(Y.size), Y] = 1
-    one_hot_Y = one_hot_Y.T
+    one_hot_Y = np.zeros((num_classes, Y.size))
+    one_hot_Y[Y, np.arange(Y.size)] = 1
     return one_hot_Y
 
 

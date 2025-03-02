@@ -8,7 +8,7 @@ class TestUtils(unittest.TestCase):
     def test_one_hot(self):
         Y = np.array([0, 1, 2])
         expected = np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
-        np.testing.assert_array_equal(one_hot(Y), expected)
+        np.testing.assert_array_equal(one_hot(Y, 3), expected)
 
     def test_load_train_data(self):
         X_train, y_train = load_train_data(1000)
