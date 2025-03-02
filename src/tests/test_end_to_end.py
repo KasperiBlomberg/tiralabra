@@ -12,8 +12,9 @@ from src.models.neural_network import NeuralNetwork
 
 class TestEndToEnd(unittest.TestCase):
     def setUp(self):
+        np.random.seed(0)
         self.X_train, self.Y_train = load_train_data(10)
-        self.nn = NeuralNetwork(randomize=False)
+        self.nn = NeuralNetwork()
         self.num_batches = 1
         self.iterations = 100
         self.alpha = 0.01

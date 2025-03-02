@@ -13,7 +13,7 @@ def train(
     alpha=0.1,
     iterations=100,
     sample_size=30000,
-    filename="testi.npz",
+    filename="model_weights.npz",
     batch_size=128,
 ):
     """
@@ -31,7 +31,7 @@ def train(
 
     X_train, Y_train = load_train_data(sample_size)
     num_batches = X_train.shape[1] // batch_size
-    nn = NeuralNetwork(randomize=True)
+    nn = NeuralNetwork()
 
     for i in range(iterations):
         permutation = np.random.permutation(X_train.shape[1])
