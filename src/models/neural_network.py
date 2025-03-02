@@ -87,40 +87,33 @@ class NeuralNetwork:
         one_hot_Y = one_hot(Y)
         m = Y.size
         dZ3 = self.A3 - one_hot_Y
-        dW3 = 1 / m * dZ3.dot(self.A2.T)
-        db3 = 1 / m * np.sum(dZ3, axis=1, keepdims=True)
+        self.dW3 = 1 / m * dZ3.dot(self.A2.T)
+        self.db3 = 1 / m * np.sum(dZ3, axis=1, keepdims=True)
         dZ2 = self.W3.T.dot(dZ3) * ReLU_deriv(self.Z2)
-        dW2 = 1 / m * dZ2.dot(self.A1.T)
-        db2 = 1 / m * np.sum(dZ2, axis=1, keepdims=True)
+        self.dW2 = 1 / m * dZ2.dot(self.A1.T)
+        self.db2 = 1 / m * np.sum(dZ2, axis=1, keepdims=True)
         dZ1 = self.W2.T.dot(dZ2) * ReLU_deriv(self.Z1)
-        dW1 = 1 / m * dZ1.dot(X.T)
-        db1 = 1 / m * np.sum(dZ1, axis=1, keepdims=True)
-        return dW1, db1, dW2, db2, dW3, db3
+        self.dW1 = 1 / m * dZ1.dot(X.T)
+        self.db1 = 1 / m * np.sum(dZ1, axis=1, keepdims=True)
 
-    def update_params(self, dW1, db1, dW2, db2, dW3, db3, alpha, lambda_reg=0.001):
+    def update_params(self, alpha, lambda_reg=0.001):
         """
         Update the weights and biases of the network.
 
         Args:
 
-            dW1 (numpy.ndarray): Gradient of the loss with respect to the weights of the first layer.
-            db1 (numpy.ndarray): Gradient of the loss with respect to the biases of the first layer.
-            dW2 (numpy.ndarray): Gradient of the loss with respect to the weights of the second layer.
-            db2 (numpy.ndarray): Gradient of the loss with respect to the biases of the second layer.
-            dW3 (numpy.ndarray): Gradient of the loss with respect to the weights of the third layer.
-            db3 (numpy.ndarray): Gradient of the loss with respect to the biases of the third layer.
             alpha (float): Learning rate.
             lambda_reg (float): L2 regularization parameter.
 
         Returns:
             tuple: Updated weights and biases for the network.
         """
-        self.W1 = self.W1 - alpha * (dW1 + lambda_reg * self.W1)
-        self.b1 = self.b1 - alpha * db1
-        self.W2 = self.W2 - alpha * (dW2 + lambda_reg * self.W2)
-        self.b2 = self.b2 - alpha * db2
-        self.W3 = self.W3 - alpha * (dW3 + lambda_reg * self.W3)
-        self.b3 = self.b3 - alpha * db3
+        self.W1 = self.W1 - alpha * (self.dW1 + lambda_reg * self.W1)
+        self.b1 = self.b1 - alpha * self.db1
+        self.W2 = self.W2 - alpha * (self.dW2 + lambda_reg * self.W2)
+        self.b2 = self.b2 - alpha * self.db2
+        self.W3 = self.W3 - alpha * (self.dW3 + lambda_reg * self.W3)
+        self.b3 = self.b3 - alpha * self.db3
 
     def predict(self, X):
         """

@@ -46,12 +46,12 @@ def train(
 
             nn.forward_prop(X_train_batch)
 
-            dW1, db1, dW2, db2, dW3, db3 = nn.backward_prop(
+            nn.backward_prop(
                 X_train_batch,
                 Y_train_batch,
             )
 
-            nn.update_params(dW1, db1, dW2, db2, dW3, db3, alpha)
+            nn.update_params(alpha)
 
         if i % 10 == 0 or i == iterations - 1:
             predictions = nn.predict(X_train)

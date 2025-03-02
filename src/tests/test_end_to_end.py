@@ -40,9 +40,7 @@ class TestEndToEnd(unittest.TestCase):
 
                 nn.forward_prop(X_train_batch)
 
-                dW1, db1, dW2, db2, dW3, db3 = nn.backward_prop(
-                    X_train_batch, Y_train_batch
-                )
+                nn.backward_prop(X_train_batch, Y_train_batch)
 
                 W1_old, b1_old, W2_old, b2_old, W3_old, b3_old = (
                     nn.W1,
@@ -53,19 +51,19 @@ class TestEndToEnd(unittest.TestCase):
                     nn.b3,
                 )
 
-                nn.update_params(dW1, db1, dW2, db2, dW3, db3, self.alpha)
+                nn.update_params(self.alpha)
 
                 # Check that gradients are not zero
                 self.assertTrue(
-                    np.any(dW1 != 0) or np.any(db1 != 0),
+                    np.any(nn.dW1 != 0) or np.any(nn.db1 != 0),
                     "Gradients for Layer 1 should not be zero",
                 )
                 self.assertTrue(
-                    np.any(dW2 != 0) or np.any(db2 != 0),
+                    np.any(nn.dW2 != 0) or np.any(nn.db2 != 0),
                     "Gradients for Layer 2 should not be zero",
                 )
                 self.assertTrue(
-                    np.any(dW3 != 0) or np.any(db3 != 0),
+                    np.any(nn.dW3 != 0) or np.any(nn.db3 != 0),
                     "Gradients for Layer 3 should not be zero",
                 )
 
