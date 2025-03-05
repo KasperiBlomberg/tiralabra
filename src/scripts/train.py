@@ -34,7 +34,7 @@ def train(
     num_batches = num_samples // batch_size
     nn = NeuralNetwork()
 
-    for i in range(iterations):
+    for i in range(1, iterations + 1):
         permutation = np.random.permutation(num_samples)
 
         for j in range(num_batches):
@@ -51,7 +51,7 @@ def train(
 
             nn.update_params(alpha)
 
-        if i % 10 == 0 or i == iterations - 1:
+        if i % 10 == 0 or i == 1:
             predictions = nn.predict(X_train)
             accuracy = np.mean(predictions == Y_train)
             print(f"Iteration {i} | Training Accuracy: {accuracy:.4f}")

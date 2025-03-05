@@ -31,7 +31,7 @@ class TestEndToEnd(unittest.TestCase):
         num_batches = num_samples // self.batch_size
         nn = self.nn
 
-        for i in range(self.iterations):
+        for i in range(1, self.iterations + 1):
             permutation = np.random.permutation(num_samples)
 
             for j in range(num_batches):
@@ -88,7 +88,7 @@ class TestEndToEnd(unittest.TestCase):
                     np.all(nn.b3 == b3_old), "b3 should update each iteration"
                 )
 
-            if i % 100 == 0 or i == self.iterations - 1:
+            if i % 10 == 0 or i == 1:
                 predictions = nn.predict(self.X_train)
                 accuracy = np.mean(predictions == self.Y_train)
                 loss = (
