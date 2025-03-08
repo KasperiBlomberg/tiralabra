@@ -20,6 +20,7 @@ class NeuralNetwork:
     def __init__(self, W1=None, b1=None, W2=None, b2=None, W3=None, b3=None):
         """
         Initializes the neural network with given weights and biases.
+        If the parameters are not provided, they are initialized randomly.
         """
         if any(param is None for param in (W1, b1, W2, b2, W3, b3)):
             self.W1, self.b1, self.W2, self.b2, self.W3, self.b3 = self._init_params()
@@ -36,7 +37,7 @@ class NeuralNetwork:
     @staticmethod
     def _init_params():
         """
-        Initialize weights and biases fo training.
+        Initialize weights and biases randomly for training.
         """
         return (
             np.random.rand(256, 784) - 0.5,

@@ -14,7 +14,7 @@ from src.models.neural_network import NeuralNetwork
 
 def evaluate(sample_size=1000, filename="model_weights.npz"):
     """
-    Evaluates the trained model on the test dataset.
+    Calculate the percentage of correct predictions on the test dataset.
 
     Args:
         sample_size (int): Number of samples to evaluate on.
@@ -74,5 +74,7 @@ def view_predictions(sample_size=10, filename="model_weights.npz"):
 
         plt.imshow(X_test[:, i].reshape(28, 28), cmap="gray")
         plt.axis("off")
-        plt.title(f"Prediction: {prediction}\nActual: {actual}", color=color, fontsize=14)
+        plt.title(
+            f"Prediction: {prediction}\nActual: {actual}", color=color, fontsize=14
+        )
         plt.show()

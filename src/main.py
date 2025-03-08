@@ -69,9 +69,8 @@ def get_filename_load(prompt, default):
         if os.path.exists(filename):
             return filename
 
-        else:
-            print("File not found. Please enter a valid filename.")
-            show_files()
+        print("File not found. Please enter a valid filename.")
+        show_files()
 
 
 def show_files():

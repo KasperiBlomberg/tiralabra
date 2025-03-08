@@ -38,7 +38,7 @@ def train(
         permutation = np.random.permutation(num_samples)
 
         for j in range(num_batches):
-            batch_indices = permutation[j * batch_size:(j + 1) * batch_size]
+            batch_indices = permutation[j * batch_size : (j + 1) * batch_size]
             X_train_batch = X_train[:, batch_indices]
             Y_train_batch = Y_train[batch_indices]
 

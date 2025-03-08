@@ -49,6 +49,3 @@ class TestUtils(unittest.TestCase):
         # Check that each column sums to 1
         column_sums = np.sum(output, axis=0)
         np.testing.assert_allclose(column_sums, np.ones(output.shape[1]), rtol=1e-6)
-
-    def test_backward_prop(self):
-        pass
