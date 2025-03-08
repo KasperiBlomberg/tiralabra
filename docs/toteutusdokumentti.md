@@ -16,7 +16,8 @@ Ohjelma koostuu seuraavista komponenteista:
 - `main.py` Sisältää käyttöliittymän.
 
 ## Saavutetut aika- ja tilavaativuudet
-Todo
+Neuroverkkojen aikavaativuus koulutusvaiheessa on tyypillisesti O(EBN^2), missä E on epochien määrä, B on batchin koko ja N on verkon neuronien määrä. Koodin analyysin perusteella algoritmini toteuttaa tämän aikavaativuuden.
+Tilavaativuuteen vaikuttaa verkon parametrien eli painojen ja biasien määrä sekä syötteiden määrä ja koko. Algoritmin tilavaativuus on siis O(BN+BD+N^2), missä B on batchin koko, N on neuronien määrä ja D on jokaisen samplen ominaisuuksien määrä.
 
 ## Työn mahdolliset puutteet ja parannusehdotukset
 Käyttöliittymää voisi vielä parannella.
