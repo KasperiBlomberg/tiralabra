@@ -1,38 +1,38 @@
-# Tiralabra
+# Fashion MNIST Neural Network
 
-## Dokumentaatio
+## About the Project
+This project implements a Multilayer Perceptron (MLP) neural network from scratch using Python and NumPy. Designed to classify clothing items from the Fashion MNIST dataset, the network utilizes a custom-built architecture with ReLU activations, Softmax output, and L2 regularization. It achieves ~89% accuracy on test data, demonstrating fundamental deep learning concepts without relying on high-level frameworks like TensorFlow or PyTorch.
+
+### Technical Documentation & Quality Assurance
+Implementation: For a detailed breakdown of the architecture, algorithms, and time/space complexity, please refer to the [Implementation Document](./docs/implementation_document.md).
+
+Testing: The codebase is fully validated with unit and integration tests to ensure mathematical correctness. Detailed coverage reports are available in the [Testing Document](./docs/test_document.md).
+## User Guide
+### Installation
+First, download or clone the repository to your local machine.
+Navigate to the project directory and install the dependencies using Poetry:
+```bash
+   poetry install
+   ```
+Activate the virtual environment:
+```bash
+   poetry shell
+   ```
+### Running the Application
+Start the program with the following command:
+```bash
+   python3 src/main.py
+   ```
+### Usage
+**Training:** The neural network must be trained before use. Select option 1 from the menu. You can simply press Enter to use the optimized default hyperparameters. Please note that training may take a few minutes.
+
+**Evaluation:** Once trained, select option 2 to test the network against the test dataset and view the total accuracy percentage.
+
+**Prediction:** To view individual images and see if the network classifies them correctly, select option 3.
+
+## Suomenkieliset dokumentit
 [Määrittelydokumentti](./docs/maarittelydokumentti.md)
 
 [Toteutusdokumentti](./docs/toteutusdokumentti.md)
 
 [Testausdokumentti](./docs/testausdokumentti.md)
-
-## Viikkoraportit
-[Viikko 1](./docs/viikkoraportti1.md)
-
-[Viikko 2](./docs/viikkoraportti2.md)
-
-[Viikko 3](./docs/viikkoraportti3.md)
-
-[Viikko 4](./docs/viikkoraportti4.md)
-
-[Viikko 5](./docs/viikkoraportti5.md)
-
-[Viikko 6](./docs/viikkoraportti6.md)
-
-## Käyttöohje
-Ensiksi lataa tai kloonaa sovellus koneellesi.
-Tämän jälkeen siirry repon kansioon ja asenna riippuvuudet komenolla
-```bash
-   poetry install
-   ```
-Tämän jälkeen siirry virtuaaliympäristöön komennolla
-```bash
-   poetry shell
-   ```
-Nyt voit suorittaa ohjelman komennolla
-```bash
-   python3 src/main.py
-   ```
-Jotta voit käyttää neuroverkkoa, tulee se ensin kouluttaa. Valitse siis UI:sta vaihtoehdoksi 1. Voit painaa enteriä jos haluat käyttää oletusarvoisia parametreja. Neuroverkon koulutus voi kestää muutaman minuutin.
-Kun olet saanut neuroverkon koulutettua, voit katsoa kuinka monta prosenttia testikuvista verkko tunnistaa valitsemalla 2. Jos haluat katsoa yksittäisiä kuvia ja nähdä ennustiko neuroverkko ne oikein, voit tehdä tämän komennolla 3.
